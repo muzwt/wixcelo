@@ -4,603 +4,601 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WIXCELO</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Josefin+Sans:wght@100;200;300;400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --pink: #FF3FA4;
-    --yellow: #FFE34E;
-    --grey: #2A2A2A;
-    --grey-light: #3D3D3D;
-    --black: #0D0D0D;
-    --white: #F5F5F5;
-  }
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 200;
+  overflow-x: hidden;
+}
 
-  html { scroll-behavior: smooth; }
+/* ── STARFIELD ── */
+canvas#stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Space Mono', monospace;
-    overflow-x: hidden;
-  }
+/* ── ALL CONTENT ABOVE STARS ── */
+nav, header, section, footer, .divider { position: relative; z-index: 10; }
 
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.35;
-  }
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.8rem 4rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding: 2rem;
-    overflow: hidden;
-  }
+.nav-logo {
+  font-family: 'Syncopate', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 400;
+  opacity: 0.9;
+}
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 20% 50%, rgba(255,63,164,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 60% at 80% 30%, rgba(255,227,78,0.10) 0%, transparent 70%),
-      var(--black);
-    z-index: 0;
-  }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.6rem;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  transition: color 0.4s;
+  font-family: 'Josefin Sans', sans-serif;
+}
+.nav-links a:hover { color: #fff; }
 
-  /* diagonal accent line */
-  .hero-bg::after {
-    content: '';
-    position: absolute;
-    top: -10%;
-    right: 10%;
-    width: 2px;
-    height: 120%;
-    background: linear-gradient(to bottom, transparent, var(--pink), transparent);
-    transform: rotate(12deg);
-    opacity: 0.4;
-  }
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 6rem;
+  position: relative;
+}
 
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-  }
+/* subtle radial fog */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-  .hero-tag {
-    display: inline-block;
-    background: var(--pink);
-    color: var(--black);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    padding: 0.35rem 1rem;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s ease both;
-  }
+.hero-eyebrow {
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 1.5s 0.5s ease both;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '✦';
+  font-size: 0.4rem;
+  opacity: 0.4;
+}
 
-  .hero-name {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: clamp(5rem, 18vw, 14rem);
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
+.hero-name {
+  font-family: 'Syncopate', sans-serif;
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0.18em;
+  color: #fff;
+  animation: fadeUp 1.5s 0.7s ease both;
+  text-shadow:
+    0 0 80px rgba(255,255,255,0.08),
+    0 0 160px rgba(255,255,255,0.04);
+}
 
-  .hero-name .w { color: var(--white); }
-  .hero-name .ix { color: var(--pink); }
-  .hero-name .celo { color: var(--yellow); }
+.hero-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2.5rem 0;
+  animation: fadeUp 1.5s 0.9s ease both;
+}
+.hero-line-seg {
+  width: 60px; height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+.hero-line-star { font-size: 0.5rem; color: rgba(255,255,255,0.4); letter-spacing: 0.3em; }
 
-  .hero-sub {
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #888;
-    margin-top: 1.2rem;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
+.hero-sub {
+  font-size: 0.65rem;
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 4rem;
+  animation: fadeUp 1.5s 1s ease both;
+}
 
-  .hero-links {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 3rem;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
+/* ── PLATFORM BUTTONS ── */
+.platform-row {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 1.5s 1.2s ease both;
+}
 
-  .link-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.75rem 1.4rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1.5px solid var(--grey-light);
-    color: var(--white);
-    background: transparent;
-    position: relative;
-    overflow: hidden;
-    transition: color 0.25s, border-color 0.25s, transform 0.2s;
-    cursor: pointer;
-  }
+.plat-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  text-decoration: none;
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.02);
+  transition: color 0.4s, border-color 0.4s, background 0.4s;
+  backdrop-filter: blur(4px);
+}
+.plat-btn:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.06);
+}
 
-  .link-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
-    z-index: 0;
-  }
+/* scroll hint */
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  animation: fadeUp 2s 2s ease both;
+}
+.scroll-hint span {
+  font-size: 0.5rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.12);
+}
+.scroll-track {
+  width: 1px; height: 50px;
+  background: rgba(255,255,255,0.05);
+  overflow: hidden;
+  position: relative;
+}
+.scroll-fill {
+  position: absolute;
+  top: -100%; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+  animation: fall 2.2s ease-in-out infinite;
+}
 
-  .link-btn span { position: relative; z-index: 1; }
-  .link-btn svg { position: relative; z-index: 1; flex-shrink: 0; }
+/* ── DIVIDER ── */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5rem;
+  gap: 2rem;
+}
+.divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+}
+.divider-sym {
+  font-size: 0.5rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.5em;
+}
 
-  .link-btn:hover { transform: translateY(-3px); }
+/* ── SECTIONS ── */
+.section-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 7rem 3rem;
+}
 
-  .btn-twitch::before { background: var(--pink); }
-  .btn-twitch:hover { border-color: var(--pink); color: var(--black); }
-  .btn-twitch::before { transform: translateX(-100%); }
-  .btn-twitch:hover::before { transform: translateX(0); }
+.section-label {
+  font-size: 0.55rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::before { content: '✦'; font-size: 0.4rem; opacity: 0.5; }
 
-  .btn-youtube::before { background: var(--yellow); }
-  .btn-youtube:hover { border-color: var(--yellow); color: var(--black); }
-  .btn-youtube:hover::before { transform: translateX(0); }
+.section-title {
+  font-family: 'Syncopate', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: #fff;
+  margin-bottom: 3.5rem;
+  line-height: 1.3;
+}
 
-  .btn-discord::before { background: var(--pink); }
-  .btn-discord:hover { border-color: var(--pink); color: var(--black); }
-  .btn-discord:hover::before { transform: translateX(0); }
+/* ── STREAM ── */
+.stream-bg {
+  background: rgba(255,255,255,0.01);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
 
-  .btn-tiktok::before { background: var(--yellow); }
-  .btn-tiktok:hover { border-color: var(--yellow); color: var(--black); }
-  .btn-tiktok:hover::before { transform: translateX(0); }
+.live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 2rem;
+}
+.live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 0 8px rgba(255,255,255,0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
 
-  .btn-patreon::before { background: var(--pink); }
-  .btn-patreon:hover { border-color: var(--pink); color: var(--black); }
-  .btn-patreon:hover::before { transform: translateX(0); }
+.stream-frame {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow:
+    0 0 80px rgba(255,255,255,0.02),
+    inset 0 0 80px rgba(0,0,0,0.9);
+}
+.stream-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: #555;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    animation: fadeUp 0.6s 0.5s ease both;
-  }
+/* ── VIDEOS ── */
+.vgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
 
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--pink), transparent);
-    animation: scrollPulse 1.8s ease-in-out infinite;
-  }
+.vcard {
+  background: rgba(255,255,255,0.01);
+  overflow: hidden;
+  transition: background 0.5s;
+}
+.vcard:hover { background: rgba(255,255,255,0.04); }
 
-  /* SECTION BASE */
-  section {
-    padding: 6rem 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
+.vcard-embed { position: relative; padding-top: 56.25%; background: #000; }
+.vcard-embed iframe { position: absolute; inset: 0; width:100%; height:100%; border:none; }
 
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
+.vcard-foot {
+  padding: 1rem 1.3rem;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.vcard-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+.vcard-arrow {
+  color: rgba(255,255,255,0.1);
+  transition: color 0.4s, transform 0.4s;
+  display: flex;
+}
+.vcard:hover .vcard-arrow { color: rgba(255,255,255,0.5); transform: translateX(3px); }
 
-  .section-label span {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--pink);
-    font-weight: 700;
-  }
+/* ── PATREON ── */
+.patron-bg {
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.01);
+}
 
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--grey-light);
-  }
+.patron-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
 
-  .section-title {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    line-height: 1;
-    color: var(--white);
-    margin-bottom: 3rem;
-  }
+.patron-text p {
+  font-size: 0.82rem;
+  font-weight: 200;
+  line-height: 2;
+  color: rgba(255,255,255,0.3);
+  margin-top: 1.5rem;
+  letter-spacing: 0.04em;
+}
 
-  .section-title em {
-    font-style: normal;
-    color: var(--yellow);
-  }
+.patron-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 3rem;
+  text-align: center;
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+/* corner marks */
+.patron-card::before, .patron-card::after {
+  content: '';
+  position: absolute;
+  width: 10px; height: 10px;
+  border-color: rgba(255,255,255,0.2);
+  border-style: solid;
+}
+.patron-card::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.patron-card::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
 
-  /* LIVE SECTION */
-  .live-section {
-    background: var(--grey);
-    max-width: 100%;
-    padding: 6rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
+.patron-card-icon { font-size: 2rem; margin-bottom: 1.5rem; opacity: 0.5; }
 
-  .live-section::before {
-    content: 'LIVE';
-    position: absolute;
-    right: -2rem;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 10rem;
-    color: rgba(255,63,164,0.05);
-    pointer-events: none;
-    letter-spacing: 0.1em;
-  }
+.patron-card-title {
+  font-family: 'Syncopate', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: #fff;
+  margin-bottom: 1rem;
+}
 
-  .live-inner { max-width: 1100px; margin: 0 auto; }
+.patron-card-text {
+  font-size: 0.72rem;
+  font-weight: 200;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.04em;
+  margin-bottom: 2.5rem;
+}
 
-  .twitch-wrap {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-    background: #111;
-    border: 1.5px solid var(--pink);
-    box-shadow: 0 0 40px rgba(255,63,164,0.15);
-  }
+.patron-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  text-decoration: none;
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.04);
+  transition: background 0.4s, border-color 0.4s;
+}
+.patron-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+}
 
-  .twitch-wrap iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
+/* ── FOOTER ── */
+footer {
+  padding: 5rem 4rem 3rem;
+  text-align: center;
+}
 
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--pink);
-    color: var(--black);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 0.4rem 0.9rem;
-    margin-bottom: 1.5rem;
-  }
+.footer-name {
+  font-family: 'Syncopate', sans-serif;
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+  user-select: none;
+  margin-bottom: 3rem;
+}
 
-  .live-dot {
-    width: 7px;
-    height: 7px;
-    background: var(--black);
-    border-radius: 50%;
-    animation: pulse 1.2s ease-in-out infinite;
-  }
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.footer-links a {
+  font-size: 0.52rem;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.15);
+  text-decoration: none;
+  transition: color 0.4s;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.6); }
 
-  /* VIDEOS SECTION */
-  .videos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
+.footer-copy {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.08);
+}
 
-  .video-card {
-    background: var(--grey);
-    border: 1.5px solid var(--grey-light);
-    overflow: hidden;
-    transition: border-color 0.25s, transform 0.25s;
-    position: relative;
-  }
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fall {
+  0%   { top: -100%; }
+  100% { top: 100%; }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50%      { opacity:0.2; }
+}
 
-  .video-card:hover {
-    border-color: var(--yellow);
-    transform: translateY(-4px);
-  }
-
-  .video-card:nth-child(odd):hover { border-color: var(--pink); }
-
-  .video-card .embed-wrap {
-    position: relative;
-    padding-top: 56.25%;
-    background: #111;
-  }
-
-  .video-card .embed-wrap iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  .video-card-info {
-    padding: 1rem 1.2rem;
-  }
-
-  .video-card-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    margin-bottom: 0.3rem;
-  }
-
-  .video-card:nth-child(odd) .video-card-label { color: var(--pink); }
-
-  .video-card-title {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 1.05rem;
-    color: var(--white);
-    line-height: 1.2;
-  }
-
-  /* SOCIAL STRIP */
-  .social-strip {
-    background: var(--yellow);
-    padding: 0;
-    overflow: hidden;
-    max-width: 100%;
-  }
-
-  .marquee-track {
-    display: flex;
-    gap: 0;
-    animation: marquee 18s linear infinite;
-    width: max-content;
-  }
-
-  .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.1rem 2.5rem;
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 1rem;
-    color: var(--black);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    border-right: 2px solid rgba(0,0,0,0.15);
-  }
-
-  .marquee-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--pink);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* FOOTER */
-  footer {
-    padding: 4rem 2rem;
-    text-align: center;
-    border-top: 1px solid var(--grey-light);
-    position: relative;
-  }
-
-  footer .footer-name {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: clamp(3rem, 10vw, 7rem);
-    line-height: 1;
-    color: var(--grey-light);
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-
-  footer .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-
-  footer .footer-links a {
-    color: #666;
-    text-decoration: none;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  footer .footer-links a:hover { color: var(--pink); }
-
-  footer .footer-copy {
-    font-size: 0.6rem;
-    color: #444;
-    letter-spacing: 0.1em;
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.6; }
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    .hero-links { gap: 0.7rem; }
-    .link-btn { padding: 0.65rem 1rem; font-size: 0.6rem; }
-    .videos-grid { grid-template-columns: 1fr; }
-  }
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 1.5rem 1.5rem; }
+  .nav-links { display: none; }
+  .patron-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .vgrid { grid-template-columns: 1fr; }
+  .section-wrap { padding: 5rem 1.5rem; }
+  footer { padding: 4rem 1.5rem 3rem; }
+  .divider { padding: 0 1.5rem; }
+}
 </style>
 </head>
 <body>
 
+<canvas id="stars"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">WIXCELO</a>
+  <ul class="nav-links">
+    <li><a href="#stream">Stream</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#support">Patreon</a></li>
+  </ul>
+</nav>
+
 <!-- HERO -->
 <header class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-tag">✦ Streamer &amp; Content Creator</div>
-    <h1 class="hero-name">
-      <span class="w">W</span><span class="ix">IX</span><span class="celo">CELO</span>
-    </h1>
-    <p class="hero-sub">Twitch &bull; YouTube &bull; Discord &bull; TikTok</p>
+  <div class="hero-eyebrow">Streamer &amp; Content Creator</div>
 
-    <div class="hero-links">
-      <!-- Twitch -->
-      <a href="https://twitch.tv/wixcelo" target="_blank" class="link-btn btn-twitch">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-        <span>Twitch</span>
-      </a>
-      <!-- YouTube -->
-      <a href="https://youtube.com/@wixcelo" target="_blank" class="link-btn btn-youtube">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-        <span>YouTube</span>
-      </a>
-      <!-- Discord -->
-      <a href="https://discord.gg/wixcelo" target="_blank" class="link-btn btn-discord">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        <span>Discord</span>
-      </a>
-      <!-- TikTok -->
-      <a href="https://tiktok.com/@wixcelo" target="_blank" class="link-btn btn-tiktok">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-        <span>TikTok</span>
-      </a>
-      <!-- Patreon -->
-      <a href="https://patreon.com/wixcelo" target="_blank" class="link-btn btn-patreon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14.82 2.41c3.96 0 7.18 3.24 7.18 7.21 0 3.96-3.22 7.18-7.18 7.18-3.97 0-7.21-3.22-7.21-7.18 0-3.97 3.24-7.21 7.21-7.21M2 21.6h3.5V2.4H2V21.6z"/></svg>
-        <span>Patreon</span>
-      </a>
-    </div>
+  <h1 class="hero-name">WIXCELO</h1>
+
+  <div class="hero-line">
+    <div class="hero-line-seg"></div>
+    <span class="hero-line-star">✦ ✦ ✦</span>
+    <div class="hero-line-seg"></div>
+  </div>
+
+  <p class="hero-sub">Twitch &nbsp;·&nbsp; YouTube &nbsp;·&nbsp; Discord &nbsp;·&nbsp; TikTok &nbsp;·&nbsp; Patreon</p>
+
+  <div class="platform-row">
+    <a href="https://twitch.tv/wixcelo" target="_blank" class="plat-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+      <span>Twitch</span>
+    </a>
+    <a href="https://youtube.com/@wixcelo" target="_blank" class="plat-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      <span>YouTube</span>
+    </a>
+    <a href="https://discord.gg/wixcelo" target="_blank" class="plat-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      <span>Discord</span>
+    </a>
+    <a href="https://tiktok.com/@wixcelo" target="_blank" class="plat-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      <span>TikTok</span>
+    </a>
+    <a href="https://patreon.com/wixcelo" target="_blank" class="plat-btn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M14.82 2.41c3.96 0 7.18 3.24 7.18 7.21 0 3.96-3.22 7.18-7.18 7.18-3.97 0-7.21-3.22-7.21-7.18 0-3.97 3.24-7.21 7.21-7.21M2 21.6h3.5V2.4H2V21.6z"/></svg>
+      <span>Patreon</span>
+    </a>
   </div>
 
   <div class="scroll-hint">
-    <div class="scroll-line"></div>
+    <div class="scroll-track"><div class="scroll-fill"></div></div>
     <span>Scroll</span>
   </div>
 </header>
 
-<!-- SOCIAL MARQUEE STRIP -->
-<div class="social-strip">
-  <div class="marquee-track" id="marquee">
-    <div class="marquee-item"><div class="marquee-dot"></div>TWITCH</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>YOUTUBE</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>DISCORD</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>TIKTOK</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>WIXCELO</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>LIVE NOW</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>TWITCH</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>YOUTUBE</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>DISCORD</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>TIKTOK</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>WIXCELO</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>LIVE NOW</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>PATREON</div>
-    <!-- duplicate for seamless loop -->
-    <div class="marquee-item"><div class="marquee-dot"></div>TWITCH</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>YOUTUBE</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>DISCORD</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>TIKTOK</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>WIXCELO</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>LIVE NOW</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>TWITCH</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>YOUTUBE</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>DISCORD</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>TIKTOK</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>WIXCELO</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>LIVE NOW</div>
-    <div class="marquee-item"><div class="marquee-dot"></div>PATREON</div>
-  </div>
-</div>
+<div class="divider"><div class="divider-line"></div><span class="divider-sym">✦ ✦ ✦</span><div class="divider-line"></div></div>
 
-<!-- LIVE STREAM SECTION -->
-<div class="live-section">
-  <div class="live-inner">
-    <div class="live-badge"><div class="live-dot"></div> Live on Twitch</div>
-    <div class="section-title" style="margin-bottom:1.5rem;">CATCH THE <em>STREAM</em></div>
-    <div class="twitch-wrap">
-      <iframe
-        src="https://player.twitch.tv/?channel=wixcelo&parent=localhost&parent=127.0.0.1&autoplay=false"
-        allowfullscreen>
-      </iframe>
+<!-- STREAM -->
+<section class="stream-bg" id="stream">
+  <div class="section-wrap">
+    <div class="live-tag"><div class="live-dot"></div> Broadcasting Live</div>
+    <div class="section-label">Stream</div>
+    <div class="section-title">CATCH THE STREAM</div>
+    <div class="stream-frame">
+      <iframe src="https://player.twitch.tv/?channel=wixcelo&parent=wixcelo.github.io&parent=localhost&autoplay=false" allowfullscreen></iframe>
     </div>
   </div>
-</div>
+</section>
 
-<!-- YOUTUBE VIDEOS SECTION -->
-<section>
-  <div class="section-label"><span>✦ Content</span></div>
-  <div class="section-title">LATEST <em>VIDEOS</em></div>
-  <div class="videos-grid">
+<div class="divider"><div class="divider-line"></div><span class="divider-sym">✦ ✦ ✦</span><div class="divider-line"></div></div>
 
-    <!-- Replace VIDEO_ID_1/2/3 with real YouTube video IDs -->
-    <div class="video-card">
-      <div class="embed-wrap">
-        <iframe src="https://www.youtube.com/embed?listType=user_uploads&list=wixcelo" allowfullscreen></iframe>
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-wrap">
+    <div class="section-label">Archive</div>
+    <div class="section-title">LATEST VIDEOS</div>
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="vcard-embed"><iframe src="https://www.youtube.com/embed?listType=user_uploads&list=wixcelo" allowfullscreen></iframe></div>
+        <div class="vcard-foot">
+          <span class="vcard-label">YouTube · Latest</span>
+          <span class="vcard-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
       </div>
-      <div class="video-card-info">
-        <div class="video-card-label">YouTube</div>
-        <div class="video-card-title">Latest Upload</div>
+      <div class="vcard">
+        <div class="vcard-embed"><iframe src="https://www.youtube.com/embed?listType=user_uploads&list=wixcelo&index=2" allowfullscreen></iframe></div>
+        <div class="vcard-foot">
+          <span class="vcard-label">YouTube · Recent</span>
+          <span class="vcard-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vcard-embed"><iframe src="https://www.youtube.com/embed?listType=user_uploads&list=wixcelo&index=3" allowfullscreen></iframe></div>
+        <div class="vcard-foot">
+          <span class="vcard-label">YouTube · Recent</span>
+          <span class="vcard-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="video-card">
-      <div class="embed-wrap">
-        <iframe src="https://www.youtube.com/embed?listType=user_uploads&list=wixcelo&index=2" allowfullscreen></iframe>
+<div class="divider"><div class="divider-line"></div><span class="divider-sym">✦ ✦ ✦</span><div class="divider-line"></div></div>
+
+<!-- PATREON -->
+<section class="patron-bg" id="support">
+  <div class="section-wrap">
+    <div class="patron-grid">
+      <div class="patron-text">
+        <div class="section-label">Support</div>
+        <div class="section-title">JOIN THE<br>INNER CIRCLE</div>
+        <p>Help Wixcelo keep streaming. Unlock exclusive content, early access, and a place among those who made it all possible.</p>
       </div>
-      <div class="video-card-info">
-        <div class="video-card-label">YouTube</div>
-        <div class="video-card-title">Recent Video</div>
+      <div class="patron-card">
+        <div class="patron-card-icon">🕯️</div>
+        <div class="patron-card-title">PATREON</div>
+        <p class="patron-card-text">Early access. Exclusive clips.<br>Discord privileges. Your support<br>keeps the stream alive.</p>
+        <a href="https://patreon.com/wixcelo" target="_blank" class="patron-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M14.82 2.41c3.96 0 7.18 3.24 7.18 7.21 0 3.96-3.22 7.18-7.18 7.18-3.97 0-7.21-3.22-7.21-7.18 0-3.97 3.24-7.21 7.21-7.21M2 21.6h3.5V2.4H2V21.6z"/></svg>
+          Enter the Circle
+        </a>
       </div>
     </div>
-
-    <div class="video-card">
-      <div class="embed-wrap">
-        <iframe src="https://www.youtube.com/embed?listType=user_uploads&list=wixcelo&index=3" allowfullscreen></iframe>
-      </div>
-      <div class="video-card-info">
-        <div class="video-card-label">YouTube</div>
-        <div class="video-card-title">Recent Video</div>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -614,8 +612,82 @@
     <a href="https://tiktok.com/@wixcelo" target="_blank">TikTok</a>
     <a href="https://patreon.com/wixcelo" target="_blank">Patreon</a>
   </div>
-  <p class="footer-copy">&copy; 2026 Wixcelo. All rights reserved.</p>
+  <p class="footer-copy">&copy; 2026 Wixcelo &nbsp;·&nbsp; All rights reserved</p>
 </footer>
 
+<script>
+// ── STARFIELD ──
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+
+let W, H, stars = [], shooting = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  const count = Math.floor((W * H) / 3000);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.1,
+      a: Math.random(),
+      speed: Math.random() * 0.004 + 0.001,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function spawnShooter() {
+  const x = Math.random() * W * 0.7;
+  const y = Math.random() * H * 0.4;
+  shooting.push({ x, y, len: Math.random() * 120 + 60, speed: Math.random() * 8 + 6, life: 1, decay: 0.018 + Math.random() * 0.01 });
+  setTimeout(spawnShooter, 3000 + Math.random() * 5000);
+}
+
+function draw(t) {
+  ctx.clearRect(0, 0, W, H);
+
+  // stars
+  for (const s of stars) {
+    const alpha = s.a * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  }
+
+  // shooting stars
+  for (let i = shooting.length - 1; i >= 0; i--) {
+    const s = shooting[i];
+    s.x += s.speed;
+    s.y += s.speed * 0.5;
+    s.life -= s.decay;
+    if (s.life <= 0) { shooting.splice(i, 1); continue; }
+
+    const grad = ctx.createLinearGradient(s.x - s.len, s.y - s.len * 0.5, s.x, s.y);
+    grad.addColorStop(0, `rgba(255,255,255,0)`);
+    grad.addColorStop(1, `rgba(255,255,255,${s.life * 0.8})`);
+    ctx.beginPath();
+    ctx.moveTo(s.x - s.len, s.y - s.len * 0.5);
+    ctx.lineTo(s.x, s.y);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize();
+initStars();
+setTimeout(spawnShooter, 1500);
+requestAnimationFrame(draw);
+</script>
 </body>
 </html>
